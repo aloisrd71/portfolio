@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon stage chez Plasteurop</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            font-size: 20px;
+            color: #d1d5db;
+        }
+
+        nav {
+            background: white;
+            padding: 18px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        nav a {
+            color: #111827;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #2563eb;
+        }
+
+        section {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: #111827;
+        }
+
+        .presentation {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .missions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            color: #2563eb;
+        }
+
+        .timeline {
+            border-left: 4px solid #2563eb;
+            padding-left: 25px;
+        }
+
+        .week {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 80px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 34px;
+            }
+
+            nav a {
+                display: block;
+                margin: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Mon stage chez Plasteurop</h1>
+        <p>BTS SIO — SISR · Première année</p>
+    </header>
+
+    <nav>
+        <a href="#stage">Mon stage</a>
+        <a href="#missions">Mes missions</a>
+        <a href="#semaines">Mes semaines</a>
+        <a href="#competences">Compétences</a>
+    </nav>
+
+    <section id="stage">
+        <h2>Mon stage</h2>
+
+        <div class="presentation">
+            <p>
+                Dans le cadre de ma première année de BTS SIO SISR,
+                j'ai réalisé un stage au sein de l'entreprise
+                <strong>Plasteurop</strong>.
+            </p>
+
+            <br>
+
+            <p>
+                Ce stage m'a permis de découvrir concrètement le fonctionnement
+                d'un environnement informatique professionnel et de mettre
+                en pratique différentes compétences liées aux systèmes,
+                aux réseaux et au support informatique.
+            </p>
+
+            <br>
+
+            <p>
+                Au cours de mon stage, j'ai notamment travaillé sur la
+                configuration de postes de travail, l'utilisation de
+                PowerShell, la documentation informatique et le logiciel ODA.
+            </p>
+        </div>
+    </section>
+
+
+    <section id="missions">
+        <h2>Mes principales missions</h2>
+
+        <div class="missions">
+
+            <div class="card">
+                <h3>🖥️ Configuration de postes</h3>
+                <p>
+                    Configuration de nouveaux ordinateurs, intégration au
+                    domaine de l'entreprise, installation des logiciels
+                    nécessaires et mises à jour du système.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>⚙️ PowerShell</h3>
+                <p>
+                    Utilisation de scripts PowerShell afin d'automatiser
+                    certaines tâches, notamment la suppression d'applications
+                    système HP.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>📊 ODA</h3>
+                <p>
+                    Saisie de données et découverte du logiciel ODA,
+                    utilisé pour répertorier et suivre les observations
+                    liées aux bonnes pratiques de sécurité.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>📚 Documentation</h3>
+                <p>
+                    Création d'un mode opératoire destiné à expliquer
+                    l'utilisation du logiciel ODA aux utilisateurs et aux
+                    administrateurs.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>🔐 Cybersécurité</h3>
+                <p>
+                    Sensibilisation aux différentes formes de cyberattaques,
+                    à leurs risques, leurs conséquences et aux précautions
+                    permettant de mieux s'en protéger.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="semaines">
+        <h2>Mes quatre semaines de stage</h2>
+
+        <div class="timeline">
+
+            <div class="week">
+                <h3>Semaine 1</h3>
+                <p>
+                    Configuration de postes de travail, saisie des données
+                    ODA et début de la conception d'un mode opératoire.
+                </p>
+            </div>
+
+            <div class="week">
+                <h3>Semaine 2</h3>
+                <p>
+                    Configuration de postes, conception du mode opératoire
+                    ODA et utilisation d'un script PowerShell pour supprimer
+                    certaines applications HP.
+                </p>
+            </div>
+
+            <div class="week">
+                <h3>Semaine 3</h3>
+                <p>
+                    Configuration d'un nouveau poste, transfert des documents
+                    d'une session utilisateur et poursuite de la création
+                    de la fiche d'installation.
+                </p>
+            </div>
+
+            <div class="week">
+                <h3>Semaine 4</h3>
+                <p>
+                    Configuration d'un poste utilisateur, finalisation de
+                    la fiche d'installation et sensibilisation aux
+                    cyberattaques avec la DGSI.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="competences">
+        <h2>Compétences développées</h2>
+
+        <div class="presentation">
+            <ul>
+                <li>Administration et configuration de postes de travail</li>
+                <li>Utilisation de PowerShell</li>
+                <li>Support et assistance aux utilisateurs</li>
+                <li>Documentation informatique</li>
+                <li>Découverte des problématiques de cybersécurité</li>
+                <li>Utilisation d'outils professionnels</li>
+                <li>Travail dans un environnement informatique professionnel</li>
+            </ul>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>Portfolio — Stage de première année BTS SIO SISR</p>
+        <p>Plasteurop · 2026</p>
+    </footer>
+
+</body>
+</html>
