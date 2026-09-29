@@ -1,9 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon stage chez Plasteurop</title>
+    <title>Mon stage et mes projets - GEFFII</title>
 
     <style>
         * {
@@ -42,6 +43,7 @@
             text-align: center;
             position: sticky;
             top: 0;
+            z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
 
@@ -68,6 +70,10 @@
             color: #111827;
         }
 
+        h3 {
+            color: #2563eb;
+        }
+
         .presentation {
             background: white;
             padding: 30px;
@@ -75,7 +81,8 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
 
-        .missions {
+        .missions,
+        .projects {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
@@ -90,7 +97,43 @@
 
         .card h3 {
             margin-bottom: 12px;
+        }
+
+        .project {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            grid-column: span 1;
+        }
+
+        .project-title {
+            font-size: 25px;
+            margin-bottom: 15px;
             color: #2563eb;
+        }
+
+        .project-subtitle {
+            font-weight: bold;
+            margin: 20px 0 10px;
+            color: #111827;
+        }
+
+        .project ul {
+            padding-left: 20px;
+        }
+
+        .project li {
+            margin-bottom: 8px;
+        }
+
+        .technology {
+            display: inline-block;
+            background: #e5e7eb;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin: 5px 4px 0 0;
+            font-size: 14px;
         }
 
         .timeline {
@@ -104,6 +147,18 @@
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .step {
+            background: #f9fafb;
+            padding: 15px;
+            margin: 12px 0;
+            border-left: 4px solid #2563eb;
+            border-radius: 5px;
+        }
+
+        .step strong {
+            color: #111827;
         }
 
         footer {
@@ -129,22 +184,33 @@
 
 <body>
 
+    <!-- EN-TÊTE -->
+
     <header>
         <h1>Mon stage chez Plasteurop</h1>
         <p>BTS SIO — SISR · Première année</p>
     </header>
 
+
+    <!-- MENU -->
+
     <nav>
         <a href="#stage">Mon stage</a>
         <a href="#missions">Mes missions</a>
+        <a href="#projets">Mes projets</a>
         <a href="#semaines">Mes semaines</a>
         <a href="#competences">Compétences</a>
     </nav>
 
+
+    <!-- PRESENTATION DU STAGE -->
+
     <section id="stage">
+
         <h2>Mon stage</h2>
 
         <div class="presentation">
+
             <p>
                 Dans le cadre de ma première année de BTS SIO SISR,
                 j'ai réalisé un stage au sein de l'entreprise
@@ -167,11 +233,16 @@
                 configuration de postes de travail, l'utilisation de
                 PowerShell, la documentation informatique et le logiciel ODA.
             </p>
+
         </div>
+
     </section>
 
 
+    <!-- MISSIONS -->
+
     <section id="missions">
+
         <h2>Mes principales missions</h2>
 
         <div class="missions">
@@ -222,10 +293,191 @@
             </div>
 
         </div>
+
     </section>
 
 
+    <!-- PROJETS -->
+
+    <section id="projets">
+
+        <h2>Mes deux projets</h2>
+
+        <div class="projects">
+
+            <!-- PROJET 1 -->
+
+            <div class="project">
+
+                <div class="project-title">
+                    🌐 Projet 1 — Infrastructure réseau
+                </div>
+
+                <p>
+                    L'objectif de ce projet était de mettre en place une
+                    nouvelle infrastructure réseau pour la société GEFFII,
+                    composée de deux réseaux locaux : un réseau Ouest et un
+                    réseau Est.
+                </p>
+
+                <div class="project-subtitle">
+                    🎯 Objectif
+                </div>
+
+                <p>
+                    Permettre aux différents postes et équipements de
+                    communiquer entre eux et permettre aux deux réseaux
+                    d'accéder à Internet.
+                </p>
+
+                <div class="project-subtitle">
+                    🔧 Comment le projet a été réalisé ?
+                </div>
+
+                <div class="step">
+                    <strong>1. Création du plan réseau</strong><br>
+                    Les réseaux GEFFII Ouest et GEFFII Est ont été définis
+                    avec différents sous-réseaux. Le plan d'adressage utilise
+                    notamment la technique VLSM pour répartir les adresses IP.
+                </div>
+
+                <div class="step">
+                    <strong>2. Configuration des routeurs</strong><br>
+                    Les routeurs Linux ont été configurés avec leurs adresses
+                    IP, leurs passerelles et leurs paramètres réseau.
+                </div>
+
+                <div class="step">
+                    <strong>3. Activation du routage</strong><br>
+                    Le routage IP a été activé afin de permettre aux routeurs
+                    de transmettre les paquets entre les différents réseaux.
+                </div>
+
+                <div class="step">
+                    <strong>4. Mise en place des routes</strong><br>
+                    Des routes statiques ont été ajoutées afin que les
+                    routeurs puissent connaître les réseaux distants.
+                </div>
+
+                <div class="step">
+                    <strong>5. Mise en place du NAT</strong><br>
+                    Le NAT a été configuré sur le routeur prestataire afin
+                    que les machines du réseau local puissent accéder à
+                    Internet.
+                </div>
+
+                <div class="step">
+                    <strong>6. Tests</strong><br>
+                    Des tests de ping, de communication entre les réseaux,
+                    d'accès à Internet et de résolution DNS ont permis de
+                    vérifier le bon fonctionnement de l'infrastructure.
+                </div>
+
+                <div class="project-subtitle">
+                    🛠️ Technologies utilisées
+                </div>
+
+                <span class="technology">Linux</span>
+                <span class="technology">IP</span>
+                <span class="technology">VLSM</span>
+                <span class="technology">Routage</span>
+                <span class="technology">NAT</span>
+                <span class="technology">DNS</span>
+                <span class="technology">iptables</span>
+
+            </div>
+
+
+            <!-- PROJET 2 -->
+
+            <div class="project">
+
+                <div class="project-title">
+                    🖥️ Projet 2 — Infrastructure serveur
+                </div>
+
+                <p>
+                    Le deuxième projet consistait à mettre en place une
+                    infrastructure serveur permettant de gérer les
+                    utilisateurs, les fichiers, les bases de données et
+                    l'intranet de la société.
+                </p>
+
+                <div class="project-subtitle">
+                    🎯 Objectif
+                </div>
+
+                <p>
+                    Installer et configurer les différents services nécessaires
+                    au fonctionnement du système informatique de GEFFII.
+                </p>
+
+                <div class="project-subtitle">
+                    🔧 Comment le projet a été réalisé ?
+                </div>
+
+                <div class="step">
+                    <strong>1. Installation du serveur</strong><br>
+                    Un serveur Windows Server a été installé et configuré
+                    avec un nom de machine, une adresse IP et un domaine.
+                </div>
+
+                <div class="step">
+                    <strong>2. Gestion des utilisateurs</strong><br>
+                    Une organisation des salariés a été mise en place afin
+                    que chaque utilisateur puisse se connecter avec son
+                    propre nom d'utilisateur et son mot de passe.
+                </div>
+
+                <div class="step">
+                    <strong>3. Gestion des fichiers</strong><br>
+                    Des espaces de stockage centralisés ont été prévus pour
+                    les utilisateurs. Les lecteurs réseau T, U et V permettent
+                    respectivement de travailler, consulter des ressources
+                    en lecture seule et échanger des fichiers.
+                </div>
+
+                <div class="step">
+                    <strong>4. Installation de SQL Server</strong><br>
+                    Le SGBDR SQL Server a été installé afin d'héberger les
+                    bases de données demandées pour les activités de GEFFII.
+                </div>
+
+                <div class="step">
+                    <strong>5. Installation d'IIS</strong><br>
+                    Le serveur IIS a été installé pour mettre en place le
+                    serveur Web et l'intranet de l'entreprise.
+                </div>
+
+                <div class="step">
+                    <strong>6. Création de la page Web</strong><br>
+                    Une page d'accueil utilisant du HTML et du PHP a été
+                    prévue pour l'intranet.
+                </div>
+
+                <div class="project-subtitle">
+                    🛠️ Technologies utilisées
+                </div>
+
+                <span class="technology">Windows Server</span>
+                <span class="technology">Active Directory</span>
+                <span class="technology">SQL Server</span>
+                <span class="technology">IIS</span>
+                <span class="technology">HTML</span>
+                <span class="technology">PHP</span>
+                <span class="technology">Réseau</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SEMAINES -->
+
     <section id="semaines">
+
         <h2>Mes quatre semaines de stage</h2>
 
         <div class="timeline">
@@ -266,30 +518,80 @@
             </div>
 
         </div>
+
     </section>
 
 
+    <!-- COMPETENCES -->
+
     <section id="competences">
+
         <h2>Compétences développées</h2>
 
         <div class="presentation">
+
             <ul>
                 <li>Administration et configuration de postes de travail</li>
+                <li>Configuration d'un réseau informatique</li>
+                <li>Configuration de routeurs Linux</li>
+                <li>Routage et routes statiques</li>
+                <li>Mise en place du NAT</li>
+                <li>Configuration DNS</li>
+                <li>Administration Windows Server</li>
+                <li>Gestion des utilisateurs et des droits</li>
+                <li>Installation et utilisation de SQL Server</li>
+                <li>Installation et configuration d'IIS</li>
                 <li>Utilisation de PowerShell</li>
                 <li>Support et assistance aux utilisateurs</li>
                 <li>Documentation informatique</li>
                 <li>Découverte des problématiques de cybersécurité</li>
-                <li>Utilisation d'outils professionnels</li>
                 <li>Travail dans un environnement informatique professionnel</li>
             </ul>
+
         </div>
+
     </section>
 
 
+    <!-- CONCLUSION -->
+
+    <section>
+
+        <h2>Bilan</h2>
+
+        <div class="presentation">
+
+            <p>
+                Ces différents travaux m'ont permis de mieux comprendre le
+                fonctionnement d'une infrastructure informatique complète.
+                J'ai pu travailler aussi bien sur la partie réseau que sur
+                la partie serveur.
+            </p>
+
+            <br>
+
+            <p>
+                Le premier projet m'a permis de comprendre comment plusieurs
+                réseaux peuvent communiquer grâce au routage, aux routes
+                statiques, au DNS et au NAT. Le deuxième projet m'a permis
+                de découvrir l'administration des serveurs, la gestion des
+                utilisateurs, les bases de données et les services Web.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
     <footer>
-        <p>Portfolio — Stage de première année BTS SIO SISR</p>
-        <p>Plasteurop · 2026</p>
+
+        <p>Portfolio — BTS SIO SISR</p>
+        <p>Projet réseau et infrastructure serveur · 2026</p>
+
     </footer>
 
 </body>
 </html>
+```
