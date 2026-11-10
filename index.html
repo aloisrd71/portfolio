@@ -1,423 +1,667 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon stage et mes projets - GEFFII</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mon stage et mes projets - GEFFII</title>
+<meta name="description" content="Portfolio BTS SIO SISR : stage chez Plasteurop, infrastructure réseau et infrastructure serveur pour GEFFII.">
+<meta name="theme-color" content="#EEF1F5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Source+Serif+4:opsz,wght@8..60,400..700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Tokens ----------
+   Une couleur par famille de travail, comme les câbles d'une baie de brassage :
+   bleu = réseau, orange = serveur, vert = stage et pratique professionnelle. */
+:root{
+  --bg:#EEF1F5;
+  --surface:#FFFFFF;
+  --ink:#0F1B33;
+  --ink-soft:#46536B;
+  --line:#C9D1DD;
+
+  --net:#1B4FD8;      --net-soft:#E2E9FB;
+  --srv:#A84705;      --srv-soft:#FBEADB;  --srv-bright:#F07A1A;
+  --pro:#096B4B;      --pro-soft:#DCF0E7;
+
+  --font-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --font-text:"Source Serif 4",Georgia,"Times New Roman",serif;
+
+  --wrap:1120px;
+  --gutter:clamp(1.25rem,4vw,2.5rem);
+}
+
+/* ---------- Base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:400 1.125rem/1.65 var(--font-text);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4,p,ul,ol,figure{margin:0}
+svg{display:block;max-width:100%}
+strong{font-weight:650}
+:focus-visible{outline:3px solid var(--net);outline-offset:3px;border-radius:4px}
+
+.wrap{width:min(100% - 2*var(--gutter),var(--wrap));margin-inline:auto}
+
+.skip{position:absolute;left:1rem;top:-4rem;z-index:20;padding:.6rem 1rem;border-radius:8px;
+  background:var(--ink);color:#fff;font:600 1rem var(--font-display);text-decoration:none}
+.skip:focus{top:1rem}
+
+/* ---------- En-tête ---------- */
+.site-header{
+  position:sticky;top:0;z-index:10;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;min-height:3.75rem}
+.brand{flex:none;font:700 1.05rem var(--font-display);color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.nav{min-width:0}
+.nav-list{display:flex;gap:.25rem;list-style:none;margin:0;padding:0;overflow-x:auto;scrollbar-width:none}
+.nav-list::-webkit-scrollbar{display:none}
+.nav-link{
+  display:block;padding:.55rem .8rem;border-radius:8px;white-space:nowrap;
+  font:500 .95rem var(--font-display);color:var(--ink-soft);text-decoration:none;
+  transition:color .15s,background-color .15s;
+}
+.nav-link:hover{color:var(--ink);background:rgba(15,27,51,.06)}
+.nav-link[aria-current="true"]{color:var(--ink);box-shadow:inset 0 -3px 0 var(--net);border-radius:8px 8px 0 0}
+@media (max-width:620px){.brand{display:none}}
+
+/* ---------- Boutons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:.8rem 1.35rem;border:2px solid transparent;border-radius:8px;
+  font:600 1rem/1.2 var(--font-display);text-decoration:none;cursor:pointer;
+  transition:background-color .15s,color .15s,border-color .15s;
+}
+.btn--primary{background:var(--net);color:#fff}
+.btn--primary:hover{background:#153FB0}
+.btn--ghost{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn--ghost:hover{background:var(--ink);color:#fff}
+.btn--small{padding:.55rem 1rem;font-size:.95rem}
+.btn[aria-disabled="true"]{opacity:.55;cursor:progress}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;isolation:isolate;padding:clamp(3rem,7vw,5.5rem) 0 clamp(3rem,6vw,5rem)}
+/* Papier quadrillé, comme un plan réseau : très discret, il s'efface vers le bas */
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background-image:
+    linear-gradient(color-mix(in srgb,var(--line) 60%,transparent) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--line) 60%,transparent) 1px,transparent 1px);
+  background-size:36px 36px;
+  -webkit-mask-image:linear-gradient(to bottom,#000 30%,transparent);
+  mask-image:linear-gradient(to bottom,#000 30%,transparent);
+}
+.hero-grid{display:grid;gap:3rem;align-items:center}
+@media (min-width:900px){.hero-grid{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:4rem}}
+.hero-title{
+  font:700 clamp(2.6rem,6.2vw,4.5rem)/1 var(--font-display);
+  letter-spacing:-.03em;text-wrap:balance;
+}
+.hero-lede{margin-top:1.5rem;max-width:44ch;font-size:1.25rem;color:var(--ink-soft)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+
+/* ---------- Schéma réseau ---------- */
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(1rem,3vw,1.5rem)}
+.diagram svg{width:100%;height:auto}
+.diagram-foot{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 1rem;
+  margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line);
+}
+.diagram-status{font:500 .95rem/1.4 var(--font-display);color:var(--ink-soft);min-height:1.4em}
+
+.cable{fill:none;stroke-width:3;stroke-linecap:round}
+.cable--net{stroke:var(--net)}
+.cable--wan{stroke:var(--ink-soft);stroke-dasharray:1 8}
+.node rect{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;transition:stroke .2s,stroke-width .2s}
+.node text{font:600 15px var(--font-display);fill:var(--ink)}
+.node .sub{font-weight:500;font-size:13px;fill:var(--ink-soft)}
+.node--lan rect{fill:var(--net-soft);stroke:var(--net)}
+.node--gateway rect{fill:var(--net);stroke:var(--net)}
+.node--gateway text{fill:#fff}
+.node--gateway .sub{fill:#DCE5FF}
+.node--wan rect{stroke:var(--ink-soft);stroke-dasharray:4 4}
+.node.is-active rect{stroke:var(--srv-bright);stroke-width:4}
+.packet{fill:var(--srv-bright);stroke:#fff;stroke-width:2}
+
+@media (prefers-reduced-motion:no-preference){
+  .cable--net{stroke-dasharray:1 1;stroke-dashoffset:1;animation:draw .9s ease-out forwards}
+  .cable--d1{animation-delay:.1s}
+  .cable--d2{animation-delay:.6s}
+  .cable--wan{animation:fade .6s ease-out 1s both}
+}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* ---------- Sections ---------- */
+.section{padding:clamp(3.5rem,8vw,6.5rem) 0}
+.section--surface{background:var(--surface);border-block:1px solid var(--line)}
+.section--ink{background:var(--ink);color:#E6EBF5}
+
+.section-title{font:700 clamp(1.9rem,3.6vw,2.75rem)/1.1 var(--font-display);letter-spacing:-.02em;text-wrap:balance}
+.section-title::before{
+  content:"";display:block;width:3.5rem;height:.4rem;margin-bottom:1.1rem;border-radius:.2rem;
+  background:var(--stub,var(--pro));
+}
+.section-title--duo{--stub:linear-gradient(90deg,var(--net) 50%,var(--srv) 50%)}
+.section-title--trio{--stub:linear-gradient(90deg,var(--net) 33.3%,var(--srv) 33.3% 66.6%,var(--pro) 66.6%)}
+.section--ink .section-title{--stub:#fff}
+.section-head{margin-bottom:clamp(2rem,4vw,3rem)}
+
+.split{display:grid;gap:2rem 5rem}
+@media (min-width:860px){
+  .split{grid-template-columns:minmax(0,4fr) minmax(0,7fr)}
+  .split__head{position:sticky;top:6rem;align-self:start}
+}
+
+.prose p{max-width:62ch;margin-bottom:1.25em}
+.prose p:last-child{margin-bottom:0}
+.section--ink .prose p{font-size:1.25rem;line-height:1.7}
+
+/* Missions */
+.missions{list-style:none;padding:0;border-top:1px solid var(--line)}
+.missions li{padding:1.4rem 0;border-bottom:1px solid var(--line)}
+.missions h3{font:700 1.25rem/1.25 var(--font-display);margin-bottom:.4rem}
+.missions p{max-width:60ch}
+
+/* ---------- Projets ---------- */
+.projects-head{padding:clamp(3.5rem,8vw,6.5rem) 0 clamp(2rem,4vw,3rem)}
+.project{
+  background:var(--tint);
+  padding:clamp(3rem,6vw,5rem) 0;
+  border-top:1px solid color-mix(in srgb,var(--accent) 25%,transparent);
+}
+.project--net{--accent:var(--net);--tint:var(--net-soft)}
+.project--srv{--accent:var(--srv);--tint:var(--srv-soft)}
+.project-grid{display:grid;gap:2.5rem 5rem}
+@media (min-width:900px){.project-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}}
+.project-num{
+  display:inline-block;margin-bottom:.9rem;padding:.25rem .8rem;border-radius:999px;
+  background:var(--accent);color:#fff;font:600 .95rem/1.4 var(--font-display);
+}
+.project-title{font:700 clamp(1.75rem,3.2vw,2.4rem)/1.1 var(--font-display);letter-spacing:-.02em;margin-bottom:1.25rem}
+.project-intro{max-width:52ch;margin-bottom:1.75rem}
+.subhead{font:700 1.05rem/1.3 var(--font-display);color:var(--accent);margin-bottom:.5rem}
+.project-block{margin-bottom:1.75rem}
+.project-block p{max-width:52ch}
+
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0}
+.chips li{
+  padding:.3rem .75rem;border-radius:6px;background:var(--surface);
+  border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);
+  color:var(--accent);font:600 .95rem/1.3 var(--font-display);
+}
+
+/* Étapes : une vraie séquence, donc numérotée et reliée par un câble */
+.steps{list-style:none;padding:0;counter-reset:step}
+.steps li{position:relative;padding:0 0 1.9rem 3.5rem;counter-increment:step}
+.steps li:last-child{padding-bottom:0}
+.steps li::before{
+  content:counter(step);position:absolute;left:0;top:0;
+  display:grid;place-items:center;width:2.25rem;height:2.25rem;border-radius:50%;
+  background:var(--accent);color:#fff;font:700 1rem var(--font-display);
+}
+.steps li::after{
+  content:"";position:absolute;left:calc(1.125rem - 1px);top:2.4rem;bottom:.15rem;width:2px;
+  background:color-mix(in srgb,var(--accent) 40%,transparent);
+}
+.steps li:last-child::after{display:none}
+.steps__title{display:block;padding-top:.3rem;margin-bottom:.25rem;font:700 1.1rem/1.3 var(--font-display)}
+.steps p{max-width:56ch}
+
+/* ---------- Semaines ---------- */
+.weeks{
+  list-style:none;padding:2rem 0 0;position:relative;
+  display:grid;gap:2rem 1.5rem;grid-template-columns:repeat(4,minmax(0,1fr));
+}
+.weeks::before{content:"";position:absolute;top:.6rem;left:0;right:0;height:2px;background:var(--pro)}
+.weeks li{position:relative}
+.weeks li::before{
+  content:"";position:absolute;left:0;top:calc(-1.4rem - 6px);
+  width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--pro);
+}
+.weeks h3{font:700 1.2rem/1.25 var(--font-display);margin-bottom:.4rem}
+@media (max-width:900px){
+  .weeks{grid-template-columns:1fr;padding:0}
+  .weeks::before{top:.5rem;bottom:.5rem;left:6px;right:auto;width:2px;height:auto}
+  .weeks li{padding-left:2rem}
+  .weeks li::before{top:.4rem}
+}
+
+/* ---------- Compétences ---------- */
+.skills{display:grid;gap:2.5rem 3rem;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr))}
+.skills__group--net{--group:var(--net)}
+.skills__group--srv{--group:var(--srv)}
+.skills__group--pro{--group:var(--pro)}
+.skills__group h3{
+  font:700 1.2rem/1.25 var(--font-display);
+  margin-bottom:1rem;padding-bottom:.75rem;border-bottom:3px solid var(--group);
+}
+.skills__list{list-style:none;padding:0;display:grid;gap:.65rem}
+.skills__list li{position:relative;padding-left:1.25rem;line-height:1.45}
+.skills__list li::before{
+  content:"";position:absolute;left:0;top:.5em;width:.5rem;height:.5rem;border-radius:2px;background:var(--group);
+}
+
+/* ---------- Pied de page ---------- */
+.site-footer{
+  background:var(--ink);color:#AEB9CF;border-top:1px solid rgba(255,255,255,.12);
+  padding:2rem 0;font:500 .95rem/1.5 var(--font-display);
+}
+.footer-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 2rem}
+</style>
 </head>
-
 <body>
+<a class="skip" href="#stage">Aller au contenu</a>
 
-    <!-- EN-TÊTE -->
-
-    <header>
-        <h1>Mon stage chez Plasteurop</h1>
-        <p>BTS SIO — SISR · Première année</p>
-    </header>
-
-
-    <!-- MENU -->
-
-    <nav>
-        <a href="#stage">Mon stage</a>
-        <a href="#missions">Mes missions</a>
-        <a href="#projets">Mes projets</a>
-        <a href="#semaines">Mes semaines</a>
-        <a href="#competences">Compétences</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="#top">Portfolio BTS SIO SISR</a>
+    <nav class="nav" aria-label="Sections">
+      <ul class="nav-list">
+        <li><a class="nav-link" href="#stage">Mon stage</a></li>
+        <li><a class="nav-link" href="#missions">Mes missions</a></li>
+        <li><a class="nav-link" href="#projets">Mes projets</a></li>
+        <li><a class="nav-link" href="#semaines">Mes semaines</a></li>
+        <li><a class="nav-link" href="#competences">Compétences</a></li>
+      </ul>
     </nav>
+  </div>
+</header>
 
+<main id="top">
 
-    <!-- PRESENTATION DU STAGE -->
-
-    <section id="stage">
-
-        <h2>Mon stage</h2>
-
-        <div class="presentation">
-
-            <p>
-                Dans le cadre de ma première année de BTS SIO SISR,
-                j'ai réalisé un stage au sein de l'entreprise
-                <strong>Plasteurop</strong>.
-            </p>
-
-            <br>
-
-            <p>
-                Ce stage m'a permis de découvrir concrètement le fonctionnement
-                d'un environnement informatique professionnel et de mettre
-                en pratique différentes compétences liées aux systèmes,
-                aux réseaux et au support informatique.
-            </p>
-
-            <br>
-
-            <p>
-                Au cours de mon stage, j'ai notamment travaillé sur la
-                configuration de postes de travail, l'utilisation de
-                PowerShell, la documentation informatique et le logiciel ODA.
-            </p>
-
+  <!-- ===== Hero ===== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div>
+        <h1 class="hero-title" id="hero-title">Mon stage chez Plasteurop</h1>
+        <p class="hero-lede">Première année de BTS SIO, option SISR. Configuration de postes, scripts PowerShell, documentation et deux projets d'infrastructure : un réseau et un serveur.</p>
+        <div class="hero-actions">
+          <a class="btn btn--primary" href="#projets">Voir mes projets</a>
+          <a class="btn btn--ghost" href="#missions">Lire mes missions</a>
         </div>
+      </div>
 
-    </section>
+      <figure class="diagram">
+        <svg id="diagram" viewBox="0 0 420 440" role="img" aria-labelledby="diag-title diag-desc">
+          <title id="diag-title">Schéma de l'infrastructure réseau GEFFII</title>
+          <desc id="diag-desc">Le réseau Ouest et le réseau Est passent chacun par un routeur Linux, puis par le routeur prestataire qui applique le NAT pour accéder à Internet.</desc>
 
+          <!-- Câbles -->
+          <path class="cable cable--net cable--d1" pathLength="1" d="M105 355 V292"/>
+          <path class="cable cable--net cable--d1" pathLength="1" d="M315 355 V292"/>
+          <path class="cable cable--net cable--d2" pathLength="1" d="M105 248 C105 211 170 215 170 178"/>
+          <path class="cable cable--net cable--d2" pathLength="1" d="M315 248 C315 211 250 215 250 178"/>
+          <path class="cable cable--wan" d="M210 122 V58"/>
 
-    <!-- MISSIONS -->
+          <!-- Nœuds -->
+          <g class="node node--wan" id="n-internet">
+            <rect x="145" y="14" width="130" height="44" rx="22"/>
+            <text x="210" y="41" text-anchor="middle">Internet</text>
+          </g>
+          <g class="node node--gateway" id="n-gateway">
+            <rect x="125" y="122" width="170" height="56" rx="10"/>
+            <text x="210" y="147" text-anchor="middle">Routeur prestataire</text>
+            <text class="sub" x="210" y="165" text-anchor="middle">NAT vers Internet</text>
+          </g>
+          <g class="node" id="n-router-west">
+            <rect x="45" y="248" width="120" height="44" rx="10"/>
+            <text x="105" y="275" text-anchor="middle">Routeur Linux</text>
+          </g>
+          <g class="node" id="n-router-east">
+            <rect x="255" y="248" width="120" height="44" rx="10"/>
+            <text x="315" y="275" text-anchor="middle">Routeur Linux</text>
+          </g>
+          <g class="node node--lan" id="n-lan-west">
+            <rect x="30" y="355" width="150" height="60" rx="10"/>
+            <text x="105" y="381" text-anchor="middle">Réseau Ouest</text>
+            <text class="sub" x="105" y="400" text-anchor="middle">Sous-réseaux VLSM</text>
+          </g>
+          <g class="node node--lan" id="n-lan-east">
+            <rect x="240" y="355" width="150" height="60" rx="10"/>
+            <text x="315" y="381" text-anchor="middle">Réseau Est</text>
+            <text class="sub" x="315" y="400" text-anchor="middle">Sous-réseaux VLSM</text>
+          </g>
 
-    <section id="missions">
-
-        <h2>Mes principales missions</h2>
-
-        <div class="missions">
-
-            <div class="card">
-                <h3>🖥️ Configuration de postes</h3>
-                <p>
-                    Configuration de nouveaux ordinateurs, intégration au
-                    domaine de l'entreprise, installation des logiciels
-                    nécessaires et mises à jour du système.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>⚙️ PowerShell</h3>
-                <p>
-                    Utilisation de scripts PowerShell afin d'automatiser
-                    certaines tâches, notamment la suppression d'applications
-                    système HP.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>📊 ODA</h3>
-                <p>
-                    Saisie de données et découverte du logiciel ODA,
-                    utilisé pour répertorier et suivre les observations
-                    liées aux bonnes pratiques de sécurité.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>📚 Documentation</h3>
-                <p>
-                    Création d'un mode opératoire destiné à expliquer
-                    l'utilisation du logiciel ODA aux utilisateurs et aux
-                    administrateurs.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>🔐 Cybersécurité</h3>
-                <p>
-                    Sensibilisation aux différentes formes de cyberattaques,
-                    à leurs risques, leurs conséquences et aux précautions
-                    permettant de mieux s'en protéger.
-                </p>
-            </div>
-
+          <circle id="packet" class="packet" r="7" cx="105" cy="355" opacity="0"/>
+        </svg>
+        <div class="diagram-foot">
+          <p class="diagram-status" id="diagram-status" role="status">Schéma simplifié du projet 1.</p>
+          <button class="btn btn--ghost btn--small" id="send-packet" type="button">Envoyer un paquet</button>
         </div>
+      </figure>
+    </div>
+  </section>
 
-    </section>
+  <!-- ===== Mon stage ===== -->
+  <section class="section" id="stage" aria-labelledby="stage-title">
+    <div class="wrap split">
+      <div class="split__head">
+        <h2 class="section-title" id="stage-title">Mon stage</h2>
+      </div>
+      <div class="prose">
+        <p>Dans le cadre de ma première année de BTS SIO SISR, j'ai réalisé un stage au sein de l'entreprise <strong>Plasteurop</strong>.</p>
+        <p>Ce stage m'a permis de découvrir concrètement le fonctionnement d'un environnement informatique professionnel et de mettre en pratique différentes compétences liées aux systèmes, aux réseaux et au support informatique.</p>
+        <p>Au cours de mon stage, j'ai notamment travaillé sur la configuration de postes de travail, l'utilisation de PowerShell, la documentation informatique et le logiciel ODA.</p>
+      </div>
+    </div>
+  </section>
 
+  <!-- ===== Missions ===== -->
+  <section class="section section--surface" id="missions" aria-labelledby="missions-title">
+    <div class="wrap split">
+      <div class="split__head">
+        <h2 class="section-title" id="missions-title">Mes principales missions</h2>
+      </div>
+      <ul class="missions">
+        <li>
+          <h3>Configuration de postes</h3>
+          <p>Configuration de nouveaux ordinateurs, intégration au domaine de l'entreprise, installation des logiciels nécessaires et mises à jour du système.</p>
+        </li>
+        <li>
+          <h3>PowerShell</h3>
+          <p>Utilisation de scripts PowerShell afin d'automatiser certaines tâches, notamment la suppression d'applications système HP.</p>
+        </li>
+        <li>
+          <h3>ODA</h3>
+          <p>Saisie de données et découverte du logiciel ODA, utilisé pour répertorier et suivre les observations liées aux bonnes pratiques de sécurité.</p>
+        </li>
+        <li>
+          <h3>Documentation</h3>
+          <p>Création d'un mode opératoire destiné à expliquer l'utilisation du logiciel ODA aux utilisateurs et aux administrateurs.</p>
+        </li>
+        <li>
+          <h3>Cybersécurité</h3>
+          <p>Sensibilisation aux différentes formes de cyberattaques, à leurs risques, leurs conséquences et aux précautions permettant de mieux s'en protéger.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-    <!-- PROJETS -->
+  <!-- ===== Projets ===== -->
+  <section id="projets" aria-labelledby="projets-title">
+    <div class="wrap projects-head">
+      <h2 class="section-title section-title--duo" id="projets-title">Mes deux projets</h2>
+    </div>
 
-    <section id="projets">
-
-        <h2>Mes deux projets</h2>
-
-        <div class="projects">
-
-            <!-- PROJET 1 -->
-
-            <div class="project">
-
-                <div class="project-title">
-                    🌐 Projet 1 — Infrastructure réseau
-                </div>
-
-                <p>
-                    L'objectif de ce projet était de mettre en place une
-                    nouvelle infrastructure réseau pour la société GEFFII,
-                    composée de deux réseaux locaux : un réseau Ouest et un
-                    réseau Est.
-                </p>
-
-                <div class="project-subtitle">
-                    🎯 Objectif
-                </div>
-
-                <p>
-                    Permettre aux différents postes et équipements de
-                    communiquer entre eux et permettre aux deux réseaux
-                    d'accéder à Internet.
-                </p>
-
-                <div class="project-subtitle">
-                    🔧 Comment le projet a été réalisé ?
-                </div>
-
-                <div class="step">
-                    <strong>1. Création du plan réseau</strong><br>
-                    Les réseaux GEFFII Ouest et GEFFII Est ont été définis
-                    avec différents sous-réseaux. Le plan d'adressage utilise
-                    notamment la technique VLSM pour répartir les adresses IP.
-                </div>
-
-                <div class="step">
-                    <strong>2. Configuration des routeurs</strong><br>
-                    Les routeurs Linux ont été configurés avec leurs adresses
-                    IP, leurs passerelles et leurs paramètres réseau.
-                </div>
-
-                <div class="step">
-                    <strong>3. Activation du routage</strong><br>
-                    Le routage IP a été activé afin de permettre aux routeurs
-                    de transmettre les paquets entre les différents réseaux.
-                </div>
-
-                <div class="step">
-                    <strong>4. Mise en place des routes</strong><br>
-                    Des routes statiques ont été ajoutées afin que les
-                    routeurs puissent connaître les réseaux distants.
-                </div>
-
-                <div class="step">
-                    <strong>5. Mise en place du NAT</strong><br>
-                    Le NAT a été configuré sur le routeur prestataire afin
-                    que les machines du réseau local puissent accéder à
-                    Internet.
-                </div>
-
-                <div class="step">
-                    <strong>6. Tests</strong><br>
-                    Des tests de ping, de communication entre les réseaux,
-                    d'accès à Internet et de résolution DNS ont permis de
-                    vérifier le bon fonctionnement de l'infrastructure.
-                </div>
-
-                <div class="project-subtitle">
-                    🛠️ Technologies utilisées
-                </div>
-
-                <span class="technology">Linux</span>
-                <span class="technology">IP</span>
-                <span class="technology">VLSM</span>
-                <span class="technology">Routage</span>
-                <span class="technology">NAT</span>
-                <span class="technology">DNS</span>
-                <span class="technology">iptables</span>
-
-            </div>
-
-
-            <!-- PROJET 2 -->
-
-            <div class="project">
-
-                <div class="project-title">
-                    🖥️ Projet 2 — Infrastructure serveur
-                </div>
-
-                <p>
-                    Le deuxième projet consistait à mettre en place une
-                    infrastructure serveur permettant de gérer les
-                    utilisateurs, les fichiers, les bases de données et
-                    l'intranet de la société.
-                </p>
-
-                <div class="project-subtitle">
-                    🎯 Objectif
-                </div>
-
-                <p>
-                    Installer et configurer les différents services nécessaires
-                    au fonctionnement du système informatique de GEFFII.
-                </p>
-
-                <div class="project-subtitle">
-                    🔧 Comment le projet a été réalisé ?
-                </div>
-
-                <div class="step">
-                    <strong>1. Installation du serveur</strong><br>
-                    Un serveur Windows Server a été installé et configuré
-                    avec un nom de machine, une adresse IP et un domaine.
-                </div>
-
-                <div class="step">
-                    <strong>2. Gestion des utilisateurs</strong><br>
-                    Une organisation des salariés a été mise en place afin
-                    que chaque utilisateur puisse se connecter avec son
-                    propre nom d'utilisateur et son mot de passe.
-                </div>
-
-                <div class="step">
-                    <strong>3. Gestion des fichiers</strong><br>
-                    Des espaces de stockage centralisés ont été prévus pour
-                    les utilisateurs. Les lecteurs réseau T, U et V permettent
-                    respectivement de travailler, consulter des ressources
-                    en lecture seule et échanger des fichiers.
-                </div>
-
-                <div class="step">
-                    <strong>4. Installation de SQL Server</strong><br>
-                    Le SGBDR SQL Server a été installé afin d'héberger les
-                    bases de données demandées pour les activités de GEFFII.
-                </div>
-
-                <div class="step">
-                    <strong>5. Installation d'IIS</strong><br>
-                    Le serveur IIS a été installé pour mettre en place le
-                    serveur Web et l'intranet de l'entreprise.
-                </div>
-
-                <div class="step">
-                    <strong>6. Création de la page Web</strong><br>
-                    Une page d'accueil utilisant du HTML et du PHP a été
-                    prévue pour l'intranet.
-                </div>
-
-                <div class="project-subtitle">
-                    🛠️ Technologies utilisées
-                </div>
-
-                <span class="technology">Windows Server</span>
-                <span class="technology">Active Directory</span>
-                <span class="technology">SQL Server</span>
-                <span class="technology">IIS</span>
-                <span class="technology">HTML</span>
-                <span class="technology">PHP</span>
-                <span class="technology">Réseau</span>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- SEMAINES -->
-
-    <section id="semaines">
-
-        <h2>Mes quatre semaines de stage</h2>
-
-        <div class="timeline">
-
-            <div class="week">
-                <h3>Semaine 1</h3>
-                <p>
-                    Configuration de postes de travail, saisie des données
-                    ODA et début de la conception d'un mode opératoire.
-                </p>
-            </div>
-
-            <div class="week">
-                <h3>Semaine 2</h3>
-                <p>
-                    Configuration de postes, conception du mode opératoire
-                    ODA et utilisation d'un script PowerShell pour supprimer
-                    certaines applications HP.
-                </p>
-            </div>
-
-            <div class="week">
-                <h3>Semaine 3</h3>
-                <p>
-                    Configuration d'un nouveau poste, transfert des documents
-                    d'une session utilisateur et poursuite de la création
-                    de la fiche d'installation.
-                </p>
-            </div>
-
-            <div class="week">
-                <h3>Semaine 4</h3>
-                <p>
-                    Configuration d'un poste utilisateur, finalisation de
-                    la fiche d'installation et sensibilisation aux
-                    cyberattaques avec la DGSI.
-                </p>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- COMPETENCES -->
-
-    <section id="competences">
-
-        <h2>Compétences développées</h2>
-
-        <div class="presentation">
-
-            <ul>
-                <li>Administration et configuration de postes de travail</li>
-                <li>Configuration d'un réseau informatique</li>
-                <li>Configuration de routeurs Linux</li>
-                <li>Routage et routes statiques</li>
-                <li>Mise en place du NAT</li>
-                <li>Configuration DNS</li>
-                <li>Administration Windows Server</li>
-                <li>Gestion des utilisateurs et des droits</li>
-                <li>Installation et utilisation de SQL Server</li>
-                <li>Installation et configuration d'IIS</li>
-                <li>Utilisation de PowerShell</li>
-                <li>Support et assistance aux utilisateurs</li>
-                <li>Documentation informatique</li>
-                <li>Découverte des problématiques de cybersécurité</li>
-                <li>Travail dans un environnement informatique professionnel</li>
+    <article class="project project--net" aria-labelledby="p1-title">
+      <div class="wrap project-grid">
+        <div>
+          <span class="project-num">Projet 1</span>
+          <h3 class="project-title" id="p1-title">Infrastructure réseau</h3>
+          <p class="project-intro">L'objectif de ce projet était de mettre en place une nouvelle infrastructure réseau pour la société GEFFII, composée de deux réseaux locaux : un réseau Ouest et un réseau Est.</p>
+          <div class="project-block">
+            <h4 class="subhead">Objectif</h4>
+            <p>Permettre aux différents postes et équipements de communiquer entre eux et permettre aux deux réseaux d'accéder à Internet.</p>
+          </div>
+          <div class="project-block">
+            <h4 class="subhead">Technologies utilisées</h4>
+            <ul class="chips">
+              <li>Linux</li><li>IP</li><li>VLSM</li><li>Routage</li><li>NAT</li><li>DNS</li><li>iptables</li>
             </ul>
-
+          </div>
         </div>
-
-    </section>
-
-
-    <!-- CONCLUSION -->
-
-    <section>
-
-        <h2>Bilan</h2>
-
-        <div class="presentation">
-
-            <p>
-                Ces différents travaux m'ont permis de mieux comprendre le
-                fonctionnement d'une infrastructure informatique complète.
-                J'ai pu travailler aussi bien sur la partie réseau que sur
-                la partie serveur.
-            </p>
-
-            <br>
-
-            <p>
-                Le premier projet m'a permis de comprendre comment plusieurs
-                réseaux peuvent communiquer grâce au routage, aux routes
-                statiques, au DNS et au NAT. Le deuxième projet m'a permis
-                de découvrir l'administration des serveurs, la gestion des
-                utilisateurs, les bases de données et les services Web.
-            </p>
-
+        <div>
+          <h4 class="subhead">Comment le projet a été réalisé ?</h4>
+          <ol class="steps">
+            <li>
+              <strong class="steps__title">Création du plan réseau</strong>
+              <p>Les réseaux GEFFII Ouest et GEFFII Est ont été définis avec différents sous-réseaux. Le plan d'adressage utilise notamment la technique VLSM pour répartir les adresses IP.</p>
+            </li>
+            <li>
+              <strong class="steps__title">Configuration des routeurs</strong>
+              <p>Les routeurs Linux ont été configurés avec leurs adresses IP, leurs passerelles et leurs paramètres réseau.</p>
+            </li>
+            <li>
+              <strong class="steps__title">Activation du routage</strong>
+              <p>Le routage IP a été activé afin de permettre aux routeurs de transmettre les paquets entre les différents réseaux.</p>
+            </li>
+            <li>
+              <strong class="steps__title">Mise en place des routes</strong>
+              <p>Des routes statiques ont été ajoutées afin que les routeurs puissent connaître les réseaux distants.</p>
+            </li>
+            <li>
+              <strong class="steps__title">Mise en place du NAT</strong>
+              <p>Le NAT a été configuré sur le routeur prestataire afin que les machines du réseau local puissent accéder à Internet.</p>
+            </li>
+            <li>
+              <strong class="steps__title">Tests</strong>
+              <p>Des tests de ping, de communication entre les réseaux, d'accès à Internet et de résolution DNS ont permis de vérifier le bon fonctionnement de l'infrastructure.</p>
+            </li>
+          </ol>
         </div>
+      </div>
+    </article>
 
-    </section>
+    <article class="project project--srv" aria-labelledby="p2-title">
+      <div class="wrap project-grid">
+        <div>
+          <span class="project-num">Projet 2</span>
+          <h3 class="project-title" id="p2-title">Infrastructure serveur</h3>
+          <p class="project-intro">Le deuxième projet consistait à mettre en place une infrastructure serveur permettant de gérer les utilisateurs, les fichiers, les bases de données et l'intranet de la société.</p>
+          <div class="project-block">
+            <h4 class="subhead">Objectif</h4>
+            <p>Installer et configurer les différents services nécessaires au fonctionnement du système informatique de GEFFII.</p>
+          </div>
+          <div class="project-block">
+            <h4 class="subhead">Technologies utilisées</h4>
+            <ul class="chips">
+              <li>Windows Server</li><li>Active Directory</li><li>SQL Server</li><li>IIS</li><li>HTML</li><li>PHP</li><li>Réseau</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h4 class="subhead">Comment le projet a été réalisé ?</h4>
+          <ol class="steps">
+            <li>
+              <strong class="steps__title">Installation du serveur</strong>
+              <p>Un serveur Windows Server a été installé et configuré avec un nom de machine, une adresse IP et un domaine.</p>
+            </li>
+            <li>
+              <strong class="steps__title">Gestion des utilisateurs</strong>
+              <p>Une organisation des salariés a été mise en place afin que chaque utilisateur puisse se connecter avec son propre nom d'utilisateur et son mot de passe.</p>
+            </li>
+            <li>
+              <strong class="steps__title">Gestion des fichiers</strong>
+              <p>Des espaces de stockage centralisés ont été prévus pour les utilisateurs. Les lecteurs réseau T, U et V permettent respectivement de travailler, consulter des ressources en lecture seule et échanger des fichiers.</p>
+            </li>
+            <li>
+              <strong class="steps__title">Installation de SQL Server</strong>
+              <p>Le SGBDR SQL Server a été installé afin d'héberger les bases de données demandées pour les activités de GEFFII.</p>
+            </li>
+            <li>
+              <strong class="steps__title">Installation d'IIS</strong>
+              <p>Le serveur IIS a été installé pour mettre en place le serveur Web et l'intranet de l'entreprise.</p>
+            </li>
+            <li>
+              <strong class="steps__title">Création de la page Web</strong>
+              <p>Une page d'accueil utilisant du HTML et du PHP a été prévue pour l'intranet.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </article>
+  </section>
 
+  <!-- ===== Semaines ===== -->
+  <section class="section" id="semaines" aria-labelledby="semaines-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" id="semaines-title">Mes quatre semaines de stage</h2>
+      </div>
+      <ol class="weeks">
+        <li>
+          <h3>Semaine 1</h3>
+          <p>Configuration de postes de travail, saisie des données ODA et début de la conception d'un mode opératoire.</p>
+        </li>
+        <li>
+          <h3>Semaine 2</h3>
+          <p>Configuration de postes, conception du mode opératoire ODA et utilisation d'un script PowerShell pour supprimer certaines applications HP.</p>
+        </li>
+        <li>
+          <h3>Semaine 3</h3>
+          <p>Configuration d'un nouveau poste, transfert des documents d'une session utilisateur et poursuite de la création de la fiche d'installation.</p>
+        </li>
+        <li>
+          <h3>Semaine 4</h3>
+          <p>Configuration d'un poste utilisateur, finalisation de la fiche d'installation et sensibilisation aux cyberattaques avec la DGSI.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
 
-    <!-- FOOTER -->
+  <!-- ===== Compétences ===== -->
+  <section class="section section--surface" id="competences" aria-labelledby="competences-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title section-title--trio" id="competences-title">Compétences développées</h2>
+      </div>
+      <div class="skills">
+        <div class="skills__group skills__group--net">
+          <h3>Réseau</h3>
+          <ul class="skills__list">
+            <li>Configuration d'un réseau informatique</li>
+            <li>Configuration de routeurs Linux</li>
+            <li>Routage et routes statiques</li>
+            <li>Mise en place du NAT</li>
+            <li>Configuration DNS</li>
+          </ul>
+        </div>
+        <div class="skills__group skills__group--srv">
+          <h3>Serveurs</h3>
+          <ul class="skills__list">
+            <li>Administration Windows Server</li>
+            <li>Gestion des utilisateurs et des droits</li>
+            <li>Installation et utilisation de SQL Server</li>
+            <li>Installation et configuration d'IIS</li>
+          </ul>
+        </div>
+        <div class="skills__group skills__group--pro">
+          <h3>Postes et support</h3>
+          <ul class="skills__list">
+            <li>Administration et configuration de postes de travail</li>
+            <li>Utilisation de PowerShell</li>
+            <li>Support et assistance aux utilisateurs</li>
+            <li>Documentation informatique</li>
+            <li>Découverte des problématiques de cybersécurité</li>
+            <li>Travail dans un environnement informatique professionnel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <footer>
+  <!-- ===== Bilan ===== -->
+  <section class="section section--ink" id="bilan" aria-labelledby="bilan-title">
+    <div class="wrap split">
+      <div class="split__head">
+        <h2 class="section-title" id="bilan-title">Bilan</h2>
+      </div>
+      <div class="prose">
+        <p>Ces différents travaux m'ont permis de mieux comprendre le fonctionnement d'une infrastructure informatique complète. J'ai pu travailler aussi bien sur la partie réseau que sur la partie serveur.</p>
+        <p>Le premier projet m'a permis de comprendre comment plusieurs réseaux peuvent communiquer grâce au routage, aux routes statiques, au DNS et au NAT. Le deuxième projet m'a permis de découvrir l'administration des serveurs, la gestion des utilisateurs, les bases de données et les services Web.</p>
+      </div>
+    </div>
+  </section>
 
-        <p>Portfolio — BTS SIO SISR</p>
-        <p>Projet réseau et infrastructure serveur · 2026</p>
+</main>
 
-    </footer>
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <span>Portfolio, BTS SIO SISR</span>
+    <span>Projet réseau et infrastructure serveur, 2026</span>
+  </div>
+</footer>
 
+<script>
+/* Lien actif dans la navigation selon la section visible */
+(() => {
+  const links = [...document.querySelectorAll('.nav-link')];
+  const byId = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      links.forEach(l => l.removeAttribute('aria-current'));
+      const link = byId.get(e.target.id);
+      if (link) link.setAttribute('aria-current', 'true');
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('main section[id]').forEach(s => { if (byId.has(s.id)) io.observe(s); });
+})();
+
+/* Schéma réseau : un paquet part du réseau Ouest, traverse les routeurs
+   et le routeur prestataire, puis arrive sur le réseau Est. */
+(() => {
+  const svg = document.getElementById('diagram');
+  const dot = document.getElementById('packet');
+  const btn = document.getElementById('send-packet');
+  const status = document.getElementById('diagram-status');
+  if (!svg || !dot || !btn || !status) return;
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const NS = 'http://www.w3.org/2000/svg';
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  function travel(d, speed = 280) {
+    if (reduce.matches) return sleep(250);
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', 'none');
+    svg.appendChild(path);
+    const len = path.getTotalLength();
+    const duration = len / speed * 1000;
+    return new Promise(resolve => {
+      const start = performance.now();
+      dot.setAttribute('opacity', '1');
+      (function frame(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const pt = path.getPointAtLength(len * p);
+        dot.setAttribute('cx', pt.x);
+        dot.setAttribute('cy', pt.y);
+        if (p < 1) requestAnimationFrame(frame);
+        else { dot.setAttribute('opacity', '0'); path.remove(); resolve(); }
+      })(start);
+    });
+  }
+
+  async function through(id, ms) {
+    const node = svg.querySelector('#' + id);
+    node.classList.add('is-active');
+    await sleep(ms);
+    node.classList.remove('is-active');
+  }
+
+  let busy = false;
+  async function send() {
+    if (busy) return;
+    busy = true;
+    btn.setAttribute('aria-disabled', 'true');
+    status.textContent = 'Paquet envoyé depuis le réseau Ouest.';
+    await through('n-lan-west', 250);
+    await travel('M105 355 V292');
+    await through('n-router-west', 250);
+    await travel('M105 248 C105 211 170 215 170 178');
+    await through('n-gateway', 450);
+    await travel('M250 178 C250 215 315 211 315 248');
+    await through('n-router-east', 250);
+    await travel('M315 292 V355');
+    await through('n-lan-east', 600);
+    status.textContent = 'Paquet reçu sur le réseau Est.';
+    btn.removeAttribute('aria-disabled');
+    busy = false;
+  }
+
+  btn.addEventListener('click', send);
+  if (!reduce.matches) setTimeout(send, 1800);
+})();
+</script>
 </body>
 </html>
-```
